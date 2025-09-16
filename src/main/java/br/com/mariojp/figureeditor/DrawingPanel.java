@@ -16,6 +16,8 @@ class DrawingPanel extends JPanel {
     private static final int DEFAULT_SIZE = 60;
     private final List<Shape> shapes = new ArrayList<>();
     private Point startDrag = null;
+    private Color cor;
+    
 
     DrawingPanel() {
         
@@ -27,7 +29,9 @@ class DrawingPanel extends JPanel {
             @Override public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 1 && startDrag == null) {
                     int size = Math.max(Math.min(DEFAULT_SIZE, DEFAULT_SIZE), 10);
-                    Shape s =  new Ellipse2D.Double(e.getPoint().x, e.getPoint().y, size, size);
+                    Shape s = new Rectangle2D.Double(e.getPoint().x, e.getPoint().y, size, size);
+                    
+
                     //return new Rectangle2D.Double(e.getPoint().x, e.getPoint().y, Math.max(DEFAULT_SIZE, 10), Math.max(DEFAULT_SIZE, 10));
                     shapes.add(s);
                     repaint();
@@ -37,6 +41,11 @@ class DrawingPanel extends JPanel {
         addMouseListener(mouse);        
         addMouseMotionListener(mouse);
 
+    }
+    
+    public void changeColor(Color novaCor) {
+    	this.cor = novaCor;
+    	
     }
 
     void clear() {
@@ -50,9 +59,8 @@ class DrawingPanel extends JPanel {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         for (Shape s : shapes) {
-            g2.setColor(new Color(30,144,255));
+            g2.setColor(cor);
             g2.fill(s);
-            g2.setColor(new Color(0,0,0,70));
             g2.setStroke(new BasicStroke(1.2f));
             g2.draw(s);
         }
